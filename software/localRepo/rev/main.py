@@ -45,22 +45,22 @@ maindir = localRepo
 #add/commit files
 def commit(fileDirectory):
     ###
-    # revisionFile = maindir+"rev/"+"Revision.sft"
-    # fi = open(revisionFile,"w+")
-    # pickle.dump(localObject,fi)
-    # fi.close()
-    # ###
+    fi = open(revisionFile,"wb")
+    pickle.dump(localObject,fi)
+    fi.close()
+    ###
     fileLocation = fileDirectory
-    # ###
-    # fo = open(revisionFile,"rb")
-    # Obj = pickle.load(fo)
-    # localObject.revisionNumber = Obj.revisionNumber + 1
-    # fo.close()
-    # localObject.fileDir = fileLocation
-    # ###
-    # fi = open(revisionFile,"wb")
-    # pickle.dump(localObject,fi)
-    # fi.close()
+    revisionFile = maindir+"rev/"+"Revision.sft"
+    ###
+    fo = open(revisionFile,"rb")
+    Obj = pickle.load(fo)
+    localObject.revisionNumber = Obj.revisionNumber + 1
+    fo.close()
+    localObject.fileDir = fileLocation
+    ###
+    fi = open(revisionFile,"wb")
+    pickle.dump(localObject,fi)
+    fi.close()
     ###
     copy_tree(fileLocation, maindir+"rev/")
     # Obj = pickle.load(fi)
@@ -69,3 +69,6 @@ def commit(fileDirectory):
 
 
 commit("/Users/aritropaul/Documents/Winter Sem 2017-18/Software/Project/PySoft/Fol 1/")
+
+
+
