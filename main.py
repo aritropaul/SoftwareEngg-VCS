@@ -31,16 +31,17 @@ def branch(newBranch):
 
 
 #local repo
-localRepo = masterRepo+"/localRepo/"
-directory = os.path.dirname(localRepo)
-if not os.path.exists(directory):
-    try:
-        os.makedirs(directory)
-    except OSError as e:
-        if e.errno != errno.EEXIST:
-            raise
+def init():
+    localRepo = masterRepo+"/localRepo/"
+    directory = os.path.dirname(localRepo)
+    if not os.path.exists(directory):
+        try:
+            os.makedirs(directory)
+        except OSError as e:
+            if e.errno != errno.EEXIST:
+                raise
+    return localRepo
 
-maindir = localRepo
 
 #add/commit files
 def commit(fileDirectory):
@@ -64,8 +65,9 @@ def commit(fileDirectory):
     ###
     copy_tree(fileLocation, maindir+"rev/")
     # Obj = pickle.load(fi)
-    print(localObject.fileDir)
-    print(localObject.revisionNumber)
+    # print(localObject.fileDir)
+    # print(localObject.revisionNumber)
 
 
+maindir = init()
 commit("/Users/aritropaul/Documents/Winter Sem 2017-18/Software/Project/PySoft/Fol 1/")
