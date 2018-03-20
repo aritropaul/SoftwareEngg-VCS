@@ -24,20 +24,15 @@ def branch(newBranch):
     directory = os.path.dirname(newBranch)
     os.makedirs(directory)
 
-def setUp(thisbranch):
-    if(thisbranch != masterBranch):
-        thisbranch = masterRepo + "/"+thisbranch
-    SRS = thisbranch + "/SRS/"
-    dirSRS = os.path.dirname(SRS)
-    if not (os.path.exists(dirSRS)):
+def setUp():
+        SRS = masterBranch + "SRS/"
+        dirSRS = os.path.dirname(SRS)
         os.makedirs(dirSRS)
-    SDS = thisbranch + "/SDS/"
-    dirSDS = os.path.dirname(SDS)
-    if not (os.path.exists(dirSDS)):
+        SDS = masterBranch + "SDS/"
+        dirSDS = os.path.dirname(SDS)
         os.makedirs(dirSDS)
-    Test = thisbranch + "/Test/"
-    dirTest = os.path.dirname(Test)
-    if not (os.path.exists(dirTest)):
+        Test = masterBranch + "Test/"
+        dirTest = os.path.dirname(Test)
         os.makedirs(dirTest)
 
 #local repo
@@ -50,6 +45,7 @@ def init():
         except OSError as e:
             if e.errno != errno.EEXIST:
                 raise
+    setUp()
     return localRepo
     
 
@@ -59,30 +55,24 @@ def commit(fileDirectory):
     maindir = masterRepo+"/localRepo/"
     copy_tree(fileDirectory, maindir+"rev/")
 
-def push(thisbranch):
-    if (thisbranch == masterBranch):
-        branchLoc = thisbranch+"/"
-    else:
-        branchLoc = masterRepo+"/"+thisbranch+"/"
+def push(thisbranch = masterBranch):
+    branchLoc = thisbranch+"/"
     maindir = masterRepo+"/localRepo/"
     copy_tree(maindir+"rev/", branchLoc)
-    setUp(thisbranch)
-    check(thisbranch)
+    check()
 
 
-def check(thisbranch):
-    if(thisbranch != masterBranch):
-        thisbranch = masterRepo + "/"+thisbranch+"/"
+def check():
     check = [1,1,1]
-    if not os.listdir(thisbranch+"SRS/"):
+    if not os.listdir(masterBranch+"SRS/"):
         print('SRS Remaining')
     else:
         check[0] = 0
-    if not os.listdir(thisbranch+"SDS/"):
+    if not os.listdir(masterBranch+"SDS/"):
         print('SDS Remaining')
     else:
         check[1] = 0
-    if not os.listdir(thisbranch+"Test/"):
+    if not os.listdir(masterBranch+"Test/"):
         print('Test Report Remaining')
     else:
         check[2] = 0
@@ -99,17 +89,10 @@ def commandLine():
        if(cmd == "soft commit"):
            commit("/Users/aritropaul/Documents/Winter Sem 2017-18/Software/Project/PySoft/Fol 1/")
        if(cmd == "soft push"):
-            branchName = raw_input(" > Branch : ")
+            branchName = raw_input("> Branch : ")
             if(branchName == "master"):
                 push(masterBranch)
             else:
                 push(branchName)
-       if(cmd == "exit"):
-            exit()
-       if(cmd == "branch"):
-           branchName = raw_input(" > Branch : ")
-           branch(branchName)
-
-
 
 commandLine()
